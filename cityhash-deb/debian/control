@@ -1,0 +1,19 @@
+Source: cityhash
+Priority: optional
+Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+Uploaders: Andrew Pollock <apollock@debian.org>
+Build-Depends:
+Standards-Version: 4.2.1
+Section: libs
+Homepage: https://github.com/google/cityhash
+Vcs-Git: https://github.com/google/cityhash.git
+Vcs-Browser: https://github.com/google/cityhash.git
+
+Package: libcityhash
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A family of hash functions for strings.
+ CityHash provides hash functions for strings.  The functions mix the
+ input bits thoroughly but are not suitable for cryptography.
+

@@ -1,0 +1,5 @@
+cityhash (0.10.0-1) stable; urgency=low
+
+  * Initial release
+
+ -- Andrew Pollock <apollock@debian.org>  Thu, 06 Apr 2011 13:28:11 +1000

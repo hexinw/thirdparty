@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+
+.bash_history
+.viminfo
+.debhelper/
+debhelper-build-stamp
+cityhash-deb/debian/files
+cityhash-deb/debian/tmp
+libcityhash/
+libcityhash.debhelper.log
+libcityhash.substvars
+*.ddeb
+*.deb
