@@ -1,3 +1,6 @@
 [submodule "cityhash-deb/cityhash"]
 	path = cityhash-deb/cityhash
 	url = https://github.com/google/cityhash.git
+[submodule "boost-deb/boost"]
+	path = boost-deb/boost
+	url = https://github.com/boostorg/boost.git
