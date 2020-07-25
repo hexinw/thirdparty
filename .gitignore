@@ -42,3 +42,14 @@ libcityhash.debhelper.log
 libcityhash.substvars
 *.ddeb
 *.deb
+boost-deb/debian/files
+boost-deb/debian/tmp
+libboost-dev/
+libboost-dev.debhelper.log
+libboost-dev.substvars
+libboost-filesystem/
+libboost-filesystem.debhelper.log
+libboost-filesystem.substvars
+libboost-system/
+libboost-system.debhelper.log
+libboost-system.substvars

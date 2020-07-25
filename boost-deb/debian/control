@@ -1,0 +1,28 @@
+Source: boost
+Priority: optional
+Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+Uploaders: Andrew Pollock <apollock@debian.org>
+Build-Depends:
+Standards-Version: 1.65.1
+Section: libs
+Homepage: https://github.com/boostorg/boost
+Vcs-Git: https://github.com/boostorg/boost.git
+Vcs-Browser: https://github.com/boostorg/boost.git
+
+Package: libboost-filesystem
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Lib boost_filesystem
+
+Package: libboost-system
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Lib boost_system
+
+Package: libboost-dev
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Lib boost_dev
