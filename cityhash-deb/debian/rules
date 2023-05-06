@@ -23,13 +23,23 @@ override_dh_auto_clean:
 	dh_auto_clean
 
 override_dh_auto_configure:
+ifeq (arm64,$(DEB_HOST_ARCH))
+	dh_auto_configure
+	cd $(BUILD_DIR)/; \
+	  ./configure --enable-sse4.2  --prefix=/usr --build x86_64-pc-linux-gnu --host aarch64-linux-gnu
+else
 	dh_auto_configure
 	cd $(BUILD_DIR)/; \
 	  ./configure --enable-sse4.2  --prefix=/usr
+endif
 
 override_dh_auto_build:
+ifeq (arm64,$(DEB_HOST_ARCH))
 	# Fake included protobuf .proto files
+	$(MAKE) -C $(BUILD_DIR) prefix=/usr CXXFLAGS="-g -O3 -msse4.2"
+else
 	$(MAKE) -C $(BUILD_DIR) check prefix=/usr CXXFLAGS="-g -O3 -msse4.2"
+endif
 
 override_dh_auto_test:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
