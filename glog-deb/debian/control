@@ -1,0 +1,17 @@
+Source: glog
+Priority: optional
+Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+Uploaders: Andrew Pollock <apollock@debian.org>
+Build-Depends:
+Standards-Version: 4.2.1
+Section: libs
+Homepage: https://github.com/google/glog
+Vcs-Git: https://github.com/google/glog.git
+Vcs-Browser: https://github.com/google/glog.git
+
+Package: libgoogle-glog
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Google open source logging module.
+

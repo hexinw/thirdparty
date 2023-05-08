@@ -53,3 +53,7 @@ libboost-filesystem.substvars
 libboost-system/
 libboost-system.debhelper.log
 libboost-system.substvars
+glog-deb/debian/files
+glog-deb/debian/tmp
+libgoogle-glog/
+libgoogle-glog.substvars
