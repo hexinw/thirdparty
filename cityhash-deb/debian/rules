@@ -26,19 +26,20 @@ override_dh_auto_configure:
 ifeq (arm64,$(DEB_HOST_ARCH))
 	dh_auto_configure
 	cd $(BUILD_DIR)/; \
-	  ./configure --enable-sse4.2  --prefix=/usr --build x86_64-pc-linux-gnu --host aarch64-linux-gnu
+	  ./configure --prefix=$(CURDIR)/debian/tmp/usr --build x86_64-pc-linux-gnu --host aarch64-linux-gnu \
+	  --libdir=$(CURDIR)/debian/tmp/usr/lib/aarch64-linux-gnu
 else
 	dh_auto_configure
 	cd $(BUILD_DIR)/; \
-	  ./configure --enable-sse4.2  --prefix=/usr
+	  ./configure --enable-sse4.2  --prefix=$(CURDIR)/debian/tmp/usr
 endif
 
 override_dh_auto_build:
 ifeq (arm64,$(DEB_HOST_ARCH))
 	# Fake included protobuf .proto files
-	$(MAKE) -C $(BUILD_DIR) prefix=/usr CXXFLAGS="-g -O3"
+	$(MAKE) -C $(BUILD_DIR) CXXFLAGS="-g -O3"
 else
-	$(MAKE) -C $(BUILD_DIR) check prefix=/usr CXXFLAGS="-g -O3 -msse4.2"
+	$(MAKE) -C $(BUILD_DIR) check CXXFLAGS="-g -O3 -msse4.2"
 endif
 
 override_dh_auto_test:
@@ -48,7 +49,7 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 endif
 
 override_dh_auto_install:
-	$(MAKE) -C $(BUILD_DIR) install prefix=$(CURDIR)/debian/tmp/usr
+	$(MAKE) -C $(BUILD_DIR) install
 
 override_dh_missing:
 	dh_missing --list-missing

@@ -20,7 +20,8 @@ export V = 1
 BUILD_DIR=$(CURDIR)/glog
 
 override_dh_auto_clean:
-	dh_auto_clean
+	cd $(BUILD_DIR)/; \
+	  cmake --build . --target clean
 
 override_dh_auto_configure:
 ifeq (arm64,$(DEB_HOST_ARCH))
@@ -33,7 +34,9 @@ ifeq (arm64,$(DEB_HOST_ARCH))
 else
 	dh_auto_configure
 	cd $(BUILD_DIR)/; \
-	  cmake -S . -B . -G "Unix Makefiles"
+	  cmake -S . -B . -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Linux \
+	  -DCMAKE_SYSTEM_PROCESSOR=x86_64 -DCMAKE_INSTALL_PREFIX=$(CURDIR)/debian/tmp/usr \
+	  -DCMAKE_INSTALL_LIBDIR="lib/x86_64-linux-gnu"
 endif
 
 override_dh_auto_build:
