@@ -19,13 +19,15 @@ cd $(dirname $0)/..
 git submodule update --init --recursive ${MODULE}-deb/${MODULE}
 
 BUILD_ROOT=./
-BUILD_CONTAINER=docker.io/hexinwang/ubuntu18-builder
-BUILD_COMMAND=/buildroot/tools/docker-build-deb.sh
 
-EXTRA_ENV=
 if [ "${DEB_HOST_ARCH}" == "arm64" ] ; then
-  EXTRA_ENV="--env DEB_HOST_ARCH=$DEB_HOST_ARCH"
+  BUILD_CONTAINER=quay.io/ubyon/ubuntu20-builder-arm64-cross
+  EXTRA_ENVS="--env DEB_HOST_ARCH=arm64 --env DEB_HOST_GNU_CPU=aarch64"
+else
+  BUILD_CONTAINER=quay.io/ubyon/ubuntu20-builder:latest
+  EXTRA_ENVS=
 fi
+BUILD_COMMAND=/buildroot/tools/docker-build-deb.sh
 
 echo "Launching ${BUILD_CONTAINER} ${DOCKER_BUILD_COMMAND}"
 docker run \
@@ -35,7 +37,7 @@ docker run \
   --volume $(readlink -f "${BUILD_ROOT}"):/buildroot:z \
   --env BUILD_ROOT=/buildroot \
   --env SUBMODULE=${MODULE}-deb \
-  ${EXTRA_ENV} \
+  ${EXTRA_ENVS} \
   --workdir /buildroot \
   ${BUILD_CONTAINER} \
   ${BUILD_COMMAND}

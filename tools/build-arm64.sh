@@ -9,6 +9,4 @@ set -x
 cd $(dirname $0)/..
 BUILD_ROOT=./
 
-export DEB_HOST_ARCH=arm64
-
-${BUILD_ROOT}/tools/build.sh $@
+DEB_HOST_ARCH=arm64 ${BUILD_ROOT}/tools/build.sh $@

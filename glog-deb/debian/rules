@@ -21,23 +21,19 @@ BUILD_DIR=$(CURDIR)/glog
 
 override_dh_auto_clean:
 	cd $(BUILD_DIR)/; \
-	  cmake --build . --target clean
+	  cmake --build . --target clean || true; \
+	  rm CMakeCache.txt
 
 override_dh_auto_configure:
-ifeq (arm64,$(DEB_HOST_ARCH))
 	dh_auto_configure
 	cd $(BUILD_DIR)/; \
 	  cmake -S . -B . -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Linux \
-	  -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_CXX_COMPILER=/usr/bin/aarch64-linux-gnu-g++-9 \
-	  -DCMAKE_AR=/usr/bin/aarch64-linux-gnu-ar -DCMAKE_LINKER=/usr/bin/aarch64-linux-gnu-ld \
-	  -DCMAKE_INSTALL_PREFIX=$(CURDIR)/debian/tmp/usr -DCMAKE_INSTALL_LIBDIR="lib/aarch64-linux-gnu"
-else
-	dh_auto_configure
-	cd $(BUILD_DIR)/; \
-	  cmake -S . -B . -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=Linux \
-	  -DCMAKE_SYSTEM_PROCESSOR=x86_64 -DCMAKE_INSTALL_PREFIX=$(CURDIR)/debian/tmp/usr \
-	  -DCMAKE_INSTALL_LIBDIR="lib/x86_64-linux-gnu"
-endif
+	  -DCMAKE_SYSTEM_PROCESSOR=$(DEB_HOST_GNU_CPU) \
+	  -DCMAKE_CXX_COMPILER=/usr/bin/$(DEB_HOST_GNU_CPU)-linux-gnu-g++-9 \
+	  -DCMAKE_AR=/usr/bin/$(DEB_HOST_GNU_CPU)-linux-gnu-ar \
+	  -DCMAKE_LINKER=/usr/bin/$(DEB_HOST_GNU_CPU)-linux-gnu-ld \
+	  -DCMAKE_INSTALL_PREFIX=$(CURDIR)/debian/tmp/usr \
+	  -DCMAKE_INSTALL_LIBDIR="lib/$(DEB_HOST_GNU_CPU)-linux-gnu"
 
 override_dh_auto_build:
 	cd $(BUILD_DIR)/; \
@@ -61,6 +57,13 @@ override_dh_usrlocal:
 
 override_dh_shlibdeps:
 	echo "hello dh_shlibdeps"
+
+#override_dh_strip:
+#ifeq (amd64,$(DEB_HOST_ARCH))
+#	dh_strip -a
+#else
+#	echo "Skip stripping symbols."
+#endif
 
 %:
 	dh $@ --buildsystem=cmake

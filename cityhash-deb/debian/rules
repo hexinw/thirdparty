@@ -20,18 +20,22 @@ export V = 1
 BUILD_DIR=$(CURDIR)/cityhash/
 
 override_dh_auto_clean:
-	dh_auto_clean
+	cd $(BUILD_DIR)/; \
+	  make clean
 
 override_dh_auto_configure:
 ifeq (arm64,$(DEB_HOST_ARCH))
 	dh_auto_configure
 	cd $(BUILD_DIR)/; \
-	  ./configure --prefix=$(CURDIR)/debian/tmp/usr --build x86_64-pc-linux-gnu --host aarch64-linux-gnu \
-	  --libdir=$(CURDIR)/debian/tmp/usr/lib/aarch64-linux-gnu
+	  ./configure --prefix=$(CURDIR)/debian/tmp/usr --build x86_64-pc-linux-gnu \
+	  --host $(DEB_HOST_GNU_CPU)-linux-gnu \
+	  --libdir=$(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_GNU_CPU)-linux-gnu
 else
 	dh_auto_configure
 	cd $(BUILD_DIR)/; \
-	  ./configure --enable-sse4.2  --prefix=$(CURDIR)/debian/tmp/usr
+	  ./configure --enable-sse4.2  --prefix=$(CURDIR)/debian/tmp/usr \
+	  --host $(DEB_HOST_GNU_CPU)-linux-gnu \
+	  --libdir=$(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_GNU_CPU)-linux-gnu
 endif
 
 override_dh_auto_build:
@@ -54,8 +58,16 @@ override_dh_auto_install:
 override_dh_missing:
 	dh_missing --list-missing
 
+#override_dh_strip:
+#ifeq (amd64,$(DEB_HOST_ARCH))
+#	dh_strip -a
+#else
+#	echo "Skip stripping symbols."
+#endif
+
+
 %:
-	dh $@ --parallel
+	dh $@ --parallel --with=multiarch
 
 .PHONY: override_dh_auto_clean override_dh_auto_configure \
 	override_dh_auto_build override_dh_auto_test \
