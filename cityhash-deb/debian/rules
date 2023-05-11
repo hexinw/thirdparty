@@ -58,14 +58,6 @@ override_dh_auto_install:
 override_dh_missing:
 	dh_missing --list-missing
 
-#override_dh_strip:
-#ifeq (amd64,$(DEB_HOST_ARCH))
-#	dh_strip -a
-#else
-#	echo "Skip stripping symbols."
-#endif
-
-
 %:
 	dh $@ --parallel --with=multiarch
 
