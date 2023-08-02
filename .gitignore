@@ -57,3 +57,4 @@ glog-deb/debian/files
 glog-deb/debian/tmp
 libgoogle-glog/
 libgoogle-glog.substvars
+libgoogle-glog.debhelper.log
