@@ -21,7 +21,7 @@ BUILD_DIR=$(CURDIR)/cityhash/
 
 override_dh_auto_clean:
 	cd $(BUILD_DIR)/; \
-	  make clean
+	  make clean || true
 
 override_dh_auto_configure:
 ifeq (arm64,$(DEB_HOST_ARCH))

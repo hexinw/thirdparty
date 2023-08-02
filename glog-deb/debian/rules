@@ -22,7 +22,7 @@ BUILD_DIR=$(CURDIR)/glog
 override_dh_auto_clean:
 	cd $(BUILD_DIR)/; \
 	  cmake --build . --target clean || true; \
-	  rm CMakeCache.txt
+	  rm CMakeCache.txt || true
 
 override_dh_auto_configure:
 	dh_auto_configure
